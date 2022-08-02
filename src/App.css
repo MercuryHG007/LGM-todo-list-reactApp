@@ -1,8 +1,11 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.App-logo {
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -12,27 +15,114 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+*/
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  margin-top: 40px;
+}
+
+.todo-container{
+  max-height: 80vh;
+  width: fit-content;
+  padding: 2%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  margin-top: 2.5%;
+  overflow-y: auto;
+  background-color: #353435;
+  box-shadow: 2px 5px 7px rgb(27, 27, 27);
+}
+
+.todo-input{
+  /* height: 10vh;
+  width: 100%; */
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-bottom: 15px;
+  border-bottom: 1px white solid;
+}
+
+.input-component{
+  /* height: 60%; */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: flex-start;
+  /* justify-content: center; */
+  margin-right: 20px;
+}
+
+.input-component label{
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-component input{
+  padding: 8px;
+  border: none;
+  border-radius: 2px;
+  width: 300px;
+}
+
+.input-component input:focus{
+  outline: none;
+}
+
+.add-task-button{
+  height: 30px;
+  margin-top: 25px;
+  border-radius: 2px !important;
+  /* padding: 7px; */
+  /* background-color: #00E67E; */
+  
+}
+
+button{
+  height: 30px;
+  width: max-content;
+  border: none;
+  cursor: pointer;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.active-button{
+  background-color: #00c257 !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.active-button:hover{
+  background-color: #03a64c !important;
+}
+
+.unactive-button{
+  background-color: #5a5a5a;
+}
+
+.unactive-button:hover{
+  background-color: #545454;
+}
+
+
+.list-toggle-button-container{
+  display: flex;
+  /* justify-content: ; */
+  /* align-items: flex-start; */
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.list-toggle-button-container button{
+  padding: 5px;
+  /* margin: 5px; */
+}
+
+.list-toggle-button-container .left-button{
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.list-toggle-button-container .right-button{
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
 }
