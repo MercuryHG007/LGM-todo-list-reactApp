@@ -28,6 +28,13 @@ function App() {
     localStorage.setItem('TaskList',JSON.stringify(updatedTaskListArr));
   };
 
+  const handleDeleteTask = (index) => {
+    let reducedTaskListArr = [...allTasks];
+    reducedTaskListArr.splice(index,1); // 2nd parameter means remove one item only
+    localStorage.setItem('TaskList',JSON.stringify(reducedTaskListArr));
+    setallTasks(reducedTaskListArr);
+  };
+
   // Used useEffect for whenever the page is rendered 1st time
   // to check if there is any existing TaskList in the local storage of browser.
   useEffect(() => {
@@ -91,7 +98,7 @@ function App() {
                 </div>
                 <div className='list-item-button-container'>
                   <button> <BsFillFileEarmarkCheckFill className='icon check-icon'/> </button>
-                  <button> <IoMdTrash className='icon trash-icon' /> </button>
+                  <button onClick={() => handleDeleteTask(index)}> <IoMdTrash className='icon trash-icon' /> </button>
                 </div>
               </div>
             )
