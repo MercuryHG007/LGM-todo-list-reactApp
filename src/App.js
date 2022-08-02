@@ -5,8 +5,9 @@ import './App.css';
 
 function App() {
 
-  const [isCompletedScreen, setisCompletedScreen] = useState(false);
+  const [IsCompletedScreen, setIsCompletedScreen] = useState(false);
   const [allTasks, setallTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
   const [newTitle, setnewTitle] = useState("");
   const [newDesc, setnewDesc] = useState("");
 
@@ -35,14 +36,44 @@ function App() {
     setallTasks(reducedTaskListArr);
   };
 
+  const handleCompleteTask = (index) => {
+    let now = new Date();
+    let dd = now.getDate();
+    let mm = now.getMonth() + 1;
+    let yy = now.getFullYear();
+    let h = now.getHours();
+    let m = now.getMinutes();
+
+    let completedOnTimeStamp = dd + '-' + mm + '-' + yy + ' at ' + h + ":" + m;
+
+    let filteredTask = {
+      ...allTasks[index],
+      completedOn: completedOnTimeStamp
+    }
+
+    let updatedCompletedTaskArr = [...completedTasks];
+    updatedCompletedTaskArr.push(filteredTask);
+    setCompletedTasks(updatedCompletedTaskArr);
+    // localStorage.setItem('CompletedTaskList',JSON.stringify(updatedCompletedTaskArr));
+  }
+
+  const handleDeleteCompletedTask = (index) => {
+    let reducedCompletedTaskListArr = [...completedTasks];
+    reducedCompletedTaskListArr.splice(index,1); // 2nd parameter means remove one item only
+    localStorage.setItem('TaskList',JSON.stringify(reducedCompletedTaskListArr));
+    setCompletedTasks(reducedCompletedTaskListArr);
+  }
+
   // Used useEffect for whenever the page is rendered 1st time
   // to check if there is any existing TaskList in the local storage of browser.
   useEffect(() => {
     // used JSON.parse to convert the string of tasks back to Array
     let savedTaskList = JSON.parse(localStorage.getItem('TaskList'));
+    // let savedCompletedTaskList = JSON.parse(localStorage.getItem('CompletedTaskList'));
     if(savedTaskList){
       // assign the saved array to the state
       setallTasks(savedTaskList);
+      // setCompletedTasks(savedCompletedTaskList);
     }
   },[])
 
@@ -74,14 +105,14 @@ function App() {
           {/* <button className='active-button left-button'> Todo Tasks </button> */}
           {/* <button className='unactive-button right-button'> Completed Tasks </button> */}
           <button 
-            className={`unactive-button ${isCompletedScreen===false && 'active-button'}`}
-            onClick={() => setisCompletedScreen(false)}
+            className={`unactive-button ${IsCompletedScreen===false && 'active-button'}`}
+            onClick={() => setIsCompletedScreen(false)}
           > 
-            Todo Task 
+            Todo Tasks 
           </button>
           <button 
-            className={`unactive-button ${isCompletedScreen === true && 'active-button'}`}
-            onClick={() => setisCompletedScreen(true)}
+            className={`unactive-button ${IsCompletedScreen === true && 'active-button'}`}
+            onClick={() => setIsCompletedScreen(true)}
           > 
             Completed Tasks 
           </button>
@@ -89,7 +120,7 @@ function App() {
 
         <div className='todo-list'>
 
-          {allTasks.map((item,index) =>{
+          {IsCompletedScreen===false && allTasks.map((item,index) =>{
             return(
               <div className='list-item-container' key={index}>
                 <div className='list-item-content'>
@@ -97,8 +128,38 @@ function App() {
                   <p>{item.description}</p>
                 </div>
                 <div className='list-item-button-container'>
-                  <button> <BsFillFileEarmarkCheckFill className='icon check-icon'/> </button>
-                  <button onClick={() => handleDeleteTask(index)}> <IoMdTrash className='icon trash-icon' /> </button>
+                  <button 
+                    onClick={() => handleCompleteTask(index)}
+                  > 
+                    <BsFillFileEarmarkCheckFill 
+                      className='icon check-icon'
+                    /> 
+                  </button>
+                  <button 
+                    onClick={() => handleDeleteTask(index)}
+                  > 
+                    <IoMdTrash 
+                      className='icon trash-icon'
+                    /> 
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+          {IsCompletedScreen===true && completedTasks.map((item,index) =>{
+            return(
+              <div className='list-item-container' key={index}>
+                <div className='list-item-content'>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                  <p><small>Completed on: {item.completedOn}</small></p>
+                </div>
+                <div className='list-item-button-container'>
+                  <button 
+                    onClick={() => handleDeleteCompletedTask(index)}
+                  > 
+                    <IoMdTrash className='icon trash-icon' /> 
+                  </button>
                 </div>
               </div>
             )
