@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {BsFillFileEarmarkCheckFill} from 'react-icons/bs';
+import {IoMdTrash} from 'react-icons/io';
 import './App.css';
 
 
@@ -49,14 +51,29 @@ function App() {
 
         <div className='todo-list'>
 
-          <ul>
-            <li className='todo-list-item'>
-              <div className='list-item-container'>
-                <h3>Task 1</h3>
-                <p>Decription</p>
-              </div>
-            </li>
-          </ul>
+          <div className='list-item-container'>
+            <div className='list-item-content'>
+              <h3>Task 1</h3>
+              <p>Description</p>
+            </div>
+            <div className='list-item-button-container'>
+              <button> <IoMdTrash className='icon trash-icon' /> </button>
+              <button> <BsFillFileEarmarkCheckFill className='icon check-icon'/> </button>
+            </div>
+          </div>
+
+          <div className='list-item-container'>
+            <div className='list-item-content'>
+              <h3>Task 1</h3>
+              <p>Description</p>
+            </div>
+            <div className='list-item-button-container'>
+              <button> <IoMdTrash className='icon trash-icon' /> </button>
+              <button> <BsFillFileEarmarkCheckFill className='icon check-icon'/> </button>
+            </div>
+          </div>
+          
+
 
         </div>
 
