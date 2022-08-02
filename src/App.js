@@ -1,12 +1,43 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BsFillFileEarmarkCheckFill} from 'react-icons/bs';
 import {IoMdTrash} from 'react-icons/io';
 import './App.css';
 
-
 function App() {
 
   const [isCompletedScreen, setisCompletedScreen] = useState(false);
+  const [allTasks, setallTasks] = useState([]);
+  const [newTitle, setnewTitle] = useState("");
+  const [newDesc, setnewDesc] = useState("");
+
+  const handleAddTask = () => {
+    let newTask = {
+      title: newTitle,
+      description: newDesc,
+    };
+
+    // copy old tasks array
+    let updatedTaskListArr = [...allTasks];
+    // add new task
+    updatedTaskListArr.push(newTask);
+    // assign the new array to old array
+    setallTasks(updatedTaskListArr);
+
+    // persist the list even after page refresh.
+    // used JSON.stringify to store the array of task in form of string.
+    localStorage.setItem('TaskList',JSON.stringify(updatedTaskListArr));
+  };
+
+  // Used useEffect for whenever the page is rendered 1st time
+  // to check if there is any existing TaskList in the local storage of browser.
+  useEffect(() => {
+    // used JSON.parse to convert the string of tasks back to Array
+    let savedTaskList = JSON.parse(localStorage.getItem('TaskList'));
+    if(savedTaskList){
+      // assign the saved array to the state
+      setallTasks(savedTaskList);
+    }
+  },[])
 
   return (
     <div className="App">
@@ -18,16 +49,16 @@ function App() {
 
           <div className='input-component'>
             <label> Title </label>
-            <input type='text' placeholder='Title of the Task?'></input>
+            <input type='text' value={newTitle} onChange={(e) => setnewTitle(e.target.value)} placeholder='Title of the Task?'></input>
           </div>
 
           <div className='input-component'>
             <label> Description </label>
-            <input type='text' placeholder='Description of the Task?'></input>
+            <input type='text' value={newDesc} onChange={(e) => setnewDesc(e.target.value)} placeholder='Description of the Task?'></input>
           </div>
 
           <div className='input-component'>
-            <button className='active-button add-task-button' type='submit' > Add Task</button>
+            <button className='active-button add-task-button' onClick={handleAddTask} type='submit' > Add Task</button>
           </div>
 
         </div>
@@ -51,29 +82,20 @@ function App() {
 
         <div className='todo-list'>
 
-          <div className='list-item-container'>
-            <div className='list-item-content'>
-              <h3>Task 1</h3>
-              <p>Description</p>
-            </div>
-            <div className='list-item-button-container'>
-              <button> <IoMdTrash className='icon trash-icon' /> </button>
-              <button> <BsFillFileEarmarkCheckFill className='icon check-icon'/> </button>
-            </div>
-          </div>
-
-          <div className='list-item-container'>
-            <div className='list-item-content'>
-              <h3>Task 1</h3>
-              <p>Description</p>
-            </div>
-            <div className='list-item-button-container'>
-              <button> <IoMdTrash className='icon trash-icon' /> </button>
-              <button> <BsFillFileEarmarkCheckFill className='icon check-icon'/> </button>
-            </div>
-          </div>
-          
-
+          {allTasks.map((item,index) =>{
+            return(
+              <div className='list-item-container' key={index}>
+                <div className='list-item-content'>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </div>
+                <div className='list-item-button-container'>
+                  <button> <BsFillFileEarmarkCheckFill className='icon check-icon'/> </button>
+                  <button> <IoMdTrash className='icon trash-icon' /> </button>
+                </div>
+              </div>
+            )
+          })}
 
         </div>
 
