@@ -54,13 +54,14 @@ function App() {
     let updatedCompletedTaskArr = [...completedTasks];
     updatedCompletedTaskArr.push(filteredTask);
     setCompletedTasks(updatedCompletedTaskArr);
-    // localStorage.setItem('CompletedTaskList',JSON.stringify(updatedCompletedTaskArr));
+    handleDeleteTask(index);
+    localStorage.setItem('CompletedTaskList',JSON.stringify(updatedCompletedTaskArr));
   }
 
   const handleDeleteCompletedTask = (index) => {
     let reducedCompletedTaskListArr = [...completedTasks];
     reducedCompletedTaskListArr.splice(index,1); // 2nd parameter means remove one item only
-    localStorage.setItem('TaskList',JSON.stringify(reducedCompletedTaskListArr));
+    localStorage.setItem('CompletedTaskList',JSON.stringify(reducedCompletedTaskListArr));
     setCompletedTasks(reducedCompletedTaskListArr);
   }
 
@@ -69,11 +70,13 @@ function App() {
   useEffect(() => {
     // used JSON.parse to convert the string of tasks back to Array
     let savedTaskList = JSON.parse(localStorage.getItem('TaskList'));
-    // let savedCompletedTaskList = JSON.parse(localStorage.getItem('CompletedTaskList'));
+    let savedCompletedTaskList = JSON.parse(localStorage.getItem('CompletedTaskList'));
     if(savedTaskList){
       // assign the saved array to the state
       setallTasks(savedTaskList);
-      // setCompletedTasks(savedCompletedTaskList);
+    }
+    if(savedCompletedTaskList){
+      setCompletedTasks(savedCompletedTaskList);
     }
   },[])
 
@@ -105,13 +108,13 @@ function App() {
           {/* <button className='active-button left-button'> Todo Tasks </button> */}
           {/* <button className='unactive-button right-button'> Completed Tasks </button> */}
           <button 
-            className={`unactive-button ${IsCompletedScreen===false && 'active-button'}`}
+            className={`unactive-button left-button ${IsCompletedScreen===false && 'active-button'}`}
             onClick={() => setIsCompletedScreen(false)}
           > 
             Todo Tasks 
           </button>
           <button 
-            className={`unactive-button ${IsCompletedScreen === true && 'active-button'}`}
+            className={`unactive-button right-button ${IsCompletedScreen === true && 'active-button'}`}
             onClick={() => setIsCompletedScreen(true)}
           > 
             Completed Tasks 
