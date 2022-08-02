@@ -1,0 +1,193 @@
+import React, {useEffect, useState} from 'react';
+import {BsFillFileEarmarkCheckFill} from 'react-icons/bs';
+import {IoMdTrash} from 'react-icons/io';
+
+import '../assests/css/todolistStyles.css'
+
+function TodoList() {
+
+    const [IsCompletedScreen, setIsCompletedScreen] = useState(false);
+    const [allTasks, setallTasks] = useState([]);
+    const [completedTasks, setCompletedTasks] = useState([]);
+    const [newTitle, setnewTitle] = useState("");
+    const [newDesc, setnewDesc] = useState("");
+  
+    const handleAddTask = () => {
+      if(newTitle==='' || newDesc===''){
+        return;
+      }
+      let newTask = {
+        title: newTitle,
+        description: newDesc,
+      };
+  
+      // copy old tasks array
+      let updatedTaskListArr = [...allTasks];
+      // add new task
+      updatedTaskListArr.push(newTask);
+      // assign the new array to old array
+      setallTasks(updatedTaskListArr);
+  
+      // persist the list even after page refresh.
+      // used JSON.stringify to store the array of task in form of string.
+      localStorage.setItem('TaskList',JSON.stringify(updatedTaskListArr));
+    };
+  
+    const handleDeleteTask = (index) => {
+      let reducedTaskListArr = [...allTasks];
+      reducedTaskListArr.splice(index,1); // 2nd parameter means remove one item only
+      localStorage.setItem('TaskList',JSON.stringify(reducedTaskListArr));
+      setallTasks(reducedTaskListArr);
+    };
+  
+    const handleCompleteTask = (index) => {
+      let now = new Date();
+      let date = now.toLocaleDateString();
+      let time = now.toLocaleTimeString();
+
+    let completedOnTimeStamp = date + " at " + time;
+  
+      let filteredTask = {
+        ...allTasks[index],
+        completedOn: completedOnTimeStamp
+      }
+  
+      let updatedCompletedTaskArr = [...completedTasks];
+      // adds new completed task at first position so laest stays on top
+      updatedCompletedTaskArr.splice(0,0,filteredTask);
+      setCompletedTasks(updatedCompletedTaskArr);
+      handleDeleteTask(index);
+      localStorage.setItem('CompletedTaskList',JSON.stringify(updatedCompletedTaskArr));
+    }
+  
+    const handleDeleteCompletedTask = (index) => {
+      let reducedCompletedTaskListArr = [...completedTasks];
+      reducedCompletedTaskListArr.splice(index,1); // 2nd parameter means remove one item only
+      localStorage.setItem('CompletedTaskList',JSON.stringify(reducedCompletedTaskListArr));
+      setCompletedTasks(reducedCompletedTaskListArr);
+    }
+  
+    // Used useEffect for whenever the page is rendered 1st time
+    // to check if there is any existing TaskList in the local storage of browser.
+    useEffect(() => {
+      // used JSON.parse to convert the string of tasks back to Array
+      let savedTaskList = JSON.parse(localStorage.getItem('TaskList'));
+      let savedCompletedTaskList = JSON.parse(localStorage.getItem('CompletedTaskList'));
+      if(savedTaskList){
+        // assign the saved array to the state
+        setallTasks(savedTaskList);
+      }
+      if(savedCompletedTaskList){
+        setCompletedTasks(savedCompletedTaskList);
+      }
+    },[])
+  
+    return (
+      <div className="todo">
+  
+        <div className='todo-container'>
+  
+          <div className='todo-input'>
+  
+            <div className='input-component'>
+              <label> Title </label>
+              <input 
+                type='text' 
+                value={newTitle} 
+                onChange={(e) => setnewTitle(e.target.value)} 
+                required 
+                placeholder='Title of the Task?'>
+              </input>
+            </div>
+  
+            <div className='input-component'>
+              <label> Description </label>
+              <input 
+                type='text' 
+                value={newDesc} 
+                onChange={(e) => setnewDesc(e.target.value)} 
+                required placeholder='Description of the Task?'>
+              </input>
+            </div>
+  
+            <div className='input-component'>
+              <button className='active-button add-task-button' onClick={handleAddTask} type='submit' > Add Task</button>
+            </div>
+  
+          </div>
+  
+          <div className='list-toggle-button-container'>
+            {/* <button className='active-button left-button'> Todo Tasks </button> */}
+            {/* <button className='unactive-button right-button'> Completed Tasks </button> */}
+            <button 
+              className={`unactive-button left-button ${IsCompletedScreen===false && 'active-button'}`}
+              onClick={() => setIsCompletedScreen(false)}
+            > 
+              Todo Tasks 
+            </button>
+            <button 
+              className={`unactive-button right-button ${IsCompletedScreen === true && 'active-button'}`}
+              onClick={() => setIsCompletedScreen(true)}
+            > 
+              Completed Tasks 
+            </button>
+          </div>
+  
+          <div className='todo-list'>
+  
+            {IsCompletedScreen===false && allTasks.map((item,index) =>{
+              return(
+                <div className='list-item-container' key={index}>
+                  <div className='list-item-content'>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                  <div className='list-item-button-container'>
+                    <button 
+                      onClick={() => handleCompleteTask(index)}
+                    > 
+                      <BsFillFileEarmarkCheckFill 
+                        className='icon check-icon'
+                      /> 
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteTask(index)}
+                    > 
+                      <IoMdTrash 
+                        className='icon trash-icon'
+                      /> 
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+            {IsCompletedScreen===true && completedTasks.map((item,index) =>{
+              return(
+                <div className='list-item-container' key={index}>
+                  <div className='list-item-content'>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                    <p><small>Completed on: {item.completedOn}</small></p>
+                    
+                  </div>
+                  {/* <div className='list-item-content'>
+                  </div> */}
+                  <div className='list-item-button-container'>
+                    <button 
+                      onClick={() => handleDeleteCompletedTask(index)}
+                    > 
+                      <IoMdTrash className='icon trash-icon' /> 
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+  
+          </div>
+  
+        </div>
+      </div>
+    );
+  }
+  
+export default TodoList;  

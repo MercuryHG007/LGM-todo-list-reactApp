@@ -1,192 +1,25 @@
 .App {
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
 }
-
-/* .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-*/
 
 .App-header {
+  font-size: 50px;
   margin-top: 40px;
 }
 
-.todo-container{
-  max-height: 80vh;
-  width: fit-content;
-  padding: 2%;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 5px;
-  margin-top: 2.5%;
-  overflow-y: auto;
-  background-color: #353435;
-  box-shadow: 2px 5px 7px rgb(27, 27, 27);
+@media screen and (max-width: 500px) {
+  .App-header {
+    font-size: 40px important; 
+  }
 }
 
-.todo-input{
-  /* height: 10vh;
-  width: 100%; */
-  display: flex;  
-  /* justify-content: space-evenly; */
-  /* align-items: center; */
-  padding-bottom: 20px;
-  margin-bottom: 15px;
-  border-bottom: 1px white solid;
-}
-
-.input-component{
-  /* height: 60%; */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  /* justify-content: center; */
-  margin-right: 20px;
-}
-
-.input-component label{
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-
-.input-component input{
-  padding: 8px;
-  border: none;
-  border-radius: 2px;
-  width: 300px;
-}
-
-.input-component input:focus{
-  outline: none;
-}
-
-.add-task-button{
-  height: 33px;
-  width: 75px;
-  margin-top: 25px;
-  border-radius: 2px !important;
-  /* padding: 7px; */
-  /* background-color: #00E67E; */
-  
-}
-
-button{
-  height: 30px;
-  width: max-content;
-  border: none;
-  cursor: pointer;
-  color: white;
-}
-
-.active-button{
-  background-color: #00c257 !important;
-}
-
-.active-button:hover{
-  background-color: #03a64c !important;
-}
-
-.unactive-button{
-  background-color: #5a5a5a;
-}
-
-.unactive-button:hover{
-  background-color: #545454;
-}
-
-
-.list-toggle-button-container{
-  display: flex;
-  /* justify-content: ; */
-  /* align-items: flex-start; */
-  justify-content: flex-start;
-  margin-top: 30px;
-  margin-bottom: 10px;
-}
-
-.list-toggle-button-container button{
-  padding: 5px;
-  /* margin: 5px; */
-}
-
-.list-toggle-button-container .left-button{
-  border-top-left-radius: 2px;
-  border-bottom-left-radius: 2px;
-}
-
-.list-toggle-button-container .right-button{
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-}
-
-.todo-list{
-  display: flex;
-  flex-direction: column;
-}
-
-.list-item-container{
-  margin-top: 10px;
-  padding: 10px 25px 4px 25px;
-  background-color: #3D3C3D;
-  /* border: 3px solid #03a64c; */
-  /* box-shadow: 5px 7px 8px #03a64c; */
-  border-radius: 5px;
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 3px 3px 5px rgb(43,42,42);
-}
-
-.list-item-content{
-  display: flex;
-  flex-direction: column;
-  height: min-content;
-}
-
-.list-item-content h3{
-  color:#04e469;
-  margin: 0;
-  margin-top: 4px;
-  text-align: left;
-}
-
-.list-item-content p{
-  margin: 10px 0px 0px 0;
-  /* margin: 0; */
-  text-align: left;
-  color: rgb(187, 187, 187);
-}
-
-.list-item-button-container{
-  width: 70px;
-  display: flex;
-  justify-content: space-between;
-}
-
-
-.list-item-button-container button{
-  background-color: inherit;
-}
-
-.icon{
-  font-size: 23px;
-}
-
-.trash-icon{
-  color: rgb(244, 89, 89);
-}
-
-.check-icon{
-  color: rgb(83, 244, 121);
+@media screen and (max-width: 500px) {
+  .App-header {
+    font-size: 35px !important; 
+  }
 }
