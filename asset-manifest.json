@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/MercuryHG007/todo-list-reactApp.git/static/css/main.8400907e.css",
+    "main.js": "/MercuryHG007/todo-list-reactApp.git/static/js/main.9ce19781.js",
+    "static/js/787.a5cad257.chunk.js": "/MercuryHG007/todo-list-reactApp.git/static/js/787.a5cad257.chunk.js",
+    "index.html": "/MercuryHG007/todo-list-reactApp.git/index.html",
+    "main.8400907e.css.map": "/MercuryHG007/todo-list-reactApp.git/static/css/main.8400907e.css.map",
+    "main.9ce19781.js.map": "/MercuryHG007/todo-list-reactApp.git/static/js/main.9ce19781.js.map",
+    "787.a5cad257.chunk.js.map": "/MercuryHG007/todo-list-reactApp.git/static/js/787.a5cad257.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8400907e.css",
+    "static/js/main.9ce19781.js"
+  ]
+}
